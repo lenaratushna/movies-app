@@ -1,20 +1,21 @@
-const API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&language=ru&page=';
+const API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&language=ru-RU&page=';
 const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
 const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&language=ru&query=';
+const GENRES_API = 'https://api.themoviedb.org/3/genre/movie/list?&api_key=04c35731a5ee918f014970082a0088b1&language=ru';
 
-const main = document.querySelector('.main');
+const main = document.querySelector('.main__container');
 const searchForm = document.querySelector('#search-form');
-const search = document.getElementById('search');
+const search = document.querySelector('#search');
 const nextPageBtn = document.querySelector('.next-page');
 const prevPageBtn = document.querySelector('.prev-page');
-let page = 1;
+const toggleCheckbox = document.querySelector('.checkbox-toggle');
 
-getMovies(API_URL+page);
+getMovies(API_URL);
 
 async function getMovies(url) {
     const resp = await fetch(url);
     const respData = await resp.json();
-
+    
     showMovies(respData.results);
 
     console.log(respData);
@@ -66,8 +67,12 @@ searchForm.addEventListener('submit', (e) => {
     const searchTerm = search.value;
 
     if(searchTerm) {
-        getMovies(SEARCH_API + searchTerm)
+        getMovies(SEARCH_API + searchTerm);
         search.value = '';
     }
 });
 
+//Ligth/Dark theme toggle
+toggleCheckbox.addEventListener('change', () => {
+    document.body.classList.toggle('ligth');
+});
